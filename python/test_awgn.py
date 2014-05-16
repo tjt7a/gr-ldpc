@@ -63,7 +63,7 @@ class my_tb(gr.top_block):
 #                self.decoder, Kvec2str, self.dst)
 
 def main():
-    fname = "/home/manu/repos/ldpc/gr-ldpc/python/alist-files/96.3.963"
+    fname = "/home/tjt7a/src/gr-ldpc/python/96.3.963"
     epsilon = 0.6
     max_iterations = 100
     print "initializing top block"

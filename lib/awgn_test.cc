@@ -9,7 +9,7 @@
 #include <time.h>
 
 int main () {
-    std::string fname = "/home/manu/repos/ldpc/gr-ldpc/python/alist-files/96.3.963";
+    std::string fname = "/home/tjt7a/src/gr-ldpc/python/96.3.963";
     alist a(fname.c_str());
     srand(time(NULL));
     std::ifstream random("randoms");

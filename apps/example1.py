@@ -3,7 +3,7 @@
 # Gnuradio Python Flow Graph
 # Title: Example1
 # Author: Manu T S
-# Generated: Wed Apr  9 01:36:34 2014
+# Generated: Fri May 16 10:23:04 2014
 ##################################################
 
 from gnuradio import analog
@@ -22,8 +22,6 @@ class example1(grc_wxgui.top_block_gui):
 
     def __init__(self):
         grc_wxgui.top_block_gui.__init__(self, title="Example1")
-        _icon_path = "/usr/share/icons/hicolor/32x32/apps/gnuradio-grc.png"
-        self.SetIcon(wx.Icon(_icon_path, wx.BITMAP_TYPE_ANY))
 
         ##################################################
         # Variables
