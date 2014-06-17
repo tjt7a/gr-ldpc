@@ -98,4 +98,3 @@ namespace gr {
 
   } /* namespace ldpc */
 } /* namespace gr */
-

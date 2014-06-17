@@ -56,4 +56,3 @@ namespace gr {
 } // namespace gr
 
 #endif /* INCLUDED_LDPC_LDPC_DECODER_FB_IMPL_H */
-

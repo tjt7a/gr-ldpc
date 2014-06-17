@@ -12,15 +12,15 @@ class my_tb(gr.top_block):
         unpack2pack = blocks.unpacked_to_packed_bb(1, gr.GR_MSB_FIRST)
         pack2unpack = blocks.packed_to_unpacked_bb(1, gr.GR_MSB_FIRST)
 
-        inFile = "/home/manu/Downloads/in.flac"
-        outFile = "/home/manu/Downloads/out.flac"
+        inFile = "/home/tjt7a/src/gr-ldpc/apps/inputs/BonkEnc_test15_level8_5s_VBR_280kbps_Mono_32000Hz_16bit.flac"
+        outFile = "/home/tjt7a/src/gr-ldpc/apps/inputs/out.flac"
         source = blocks.file_source(1, inFile, False)
         sink = blocks.file_sink(1, outFile)
 
         self.connect(source, pack2unpack, encoder, decoder, unpack2pack, sink)
 
 def main():
-    fname = "/home/manu/repos/ldpc/gr-ldpc/python/alist-files/96.3.963"
+    fname = "/home/tjt7a/src/gr-ldpc/apps/inputs/96.3.963"
     sigma = 0.3
     max_iterations = 100
     tb = my_tb(fname, sigma, max_iterations)

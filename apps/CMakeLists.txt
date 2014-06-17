@@ -17,9 +17,54 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 
-include(GrPython)
+include_directories(
+        ${GR_DIGITAL_INCLUDE_DIRS}
+	${GR_AUDIO_INCLUDE_DIRS}
+        ${GR_ANALOG_INCLUDE_DIRS}
+        ${GNURADIO_RUNTIME_INCLUDE_DIRS}
+        ${Boost_INCLUDE_DIRS}
+        ${GR_BLOCKS_INCLUDE_DIRS}
+	${GR_LDPC_INCLUDE_DIRS}
+)
 
-GR_PYTHON_INSTALL(
-    PROGRAMS
-    DESTINATION bin
+add_executable(dial_tone ${CMAKE_CURRENT_SOURCE_DIR}/dial_tone.cc)
+add_executable(ldpc_hier_test ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_test.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoder_fb.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_encoder_bb.cc)
+add_executable(ldpc_hier_decoding ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoding.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoder_fb.cc)
+add_executable(ldpc_hier_encoding ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_encoding.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_encoder_bb.cc)
+add_executable(ldpc_parent ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_parent.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoder_fb.cc)
+add_executable(ldpc_child ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_child.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoder_fb.cc)
+
+#include(GrPython)
+
+target_link_libraries(dial_tone
+  ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_ANALOG_LIBRARIES} ${GNURADIO_AUDIO_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES})
+
+target_link_libraries(ldpc_hier_test
+  ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_ANALOG_LIBRARIES} ${GNURADIO_AUDIO_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES} ${GNURADIO_LDPC_LIBRARIES} ${GNURADIO_DIGITAL_LIBRARIES})
+
+target_link_libraries(ldpc_hier_decoding
+  ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_ANALOG_LIBRARIES} ${GNURADIO_AUDIO_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES} ${GNURADIO_LDPC_LIBRARIES} ${GNURADIO_DIGITAL_LIBRARIES})
+
+target_link_libraries(ldpc_hier_encoding
+  ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_ANALOG_LIBRARIES} ${GNURADIO_AUDIO_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES} ${GNURADIO_LDPC_LIBRARIES} ${GNURADIO_DIGITAL_LIBRARIES})
+
+target_link_libraries(ldpc_parent
+  ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_ANALOG_LIBRARIES} ${GNURADIO_AUDIO_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES} ${GNURADIO_LDPC_LIBRARIES} ${GNURADIO_DIGITAL_LIBRARIES})
+
+target_link_libraries(ldpc_child
+  ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_ANALOG_LIBRARIES} ${GNURADIO_AUDIO_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES} ${GNURADIO_LDPC_LIBRARIES} ${GNURADIO_DIGITAL_LIBRARIES})
+
+#GR_PYTHON_INSTALL(
+#    PROGRAMS
+#    DESTINATION bin
+#)
+
+INSTALL(TARGETS
+	dial_tone
+	ldpc_hier_test
+	ldpc_hier_decoding
+	ldpc_hier_encoding
+	ldpc_parent
+	ldpc_child
+	DESTINATION bin
 )

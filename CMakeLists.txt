@@ -85,7 +85,7 @@ set(GRC_BLOCKS_DIR      ${GR_PKG_DATA_DIR}/grc/blocks)
 ########################################################################
 find_package(GnuradioRuntime)
 find_package(CppUnit)
-
+find_package(Boost)
 # To run a more advanced search for GNU Radio and it's components and
 # versions, use the following. Add any components required to the list
 # of GR_REQUIRED_COMPONENTS (in all caps) and change "version" to the
@@ -93,6 +93,8 @@ find_package(CppUnit)
 #
 # set(GR_REQUIRED_COMPONENTS RUNTIME BLOCKS FILTER ...)
 # find_package(Gnuradio "version")
+set(GR_REQUIRED_COMPONENTS RUNTIME BLOCKS FILTER ANALOG AUDIO FFT FILTER)
+find_package(Gnuradio)
 
 if(NOT GNURADIO_RUNTIME_FOUND)
     message(FATAL_ERROR "GnuRadio Runtime required to compile ldpc")
@@ -106,6 +108,9 @@ endif()
 ########################################################################
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
+    ${CMAKE_SOURCE_DIR}/lib
+    ${CMAKE_BINARY_DIR}/include
+    ${CMAKE_BINARY_DIR}/lib
     ${Boost_INCLUDE_DIRS}
     ${CPPUNIT_INCLUDE_DIRS}
     ${GNURADIO_RUNTIME_INCLUDE_DIRS}
@@ -115,6 +120,8 @@ link_directories(
     ${Boost_LIBRARY_DIRS}
     ${CPPUNIT_LIBRARY_DIRS}
     ${GNURADIO_RUNTIME_LIBRARY_DIRS}
+    ${GR_AUDIO_INCLUDE_DIRS}
+    ${GR_ANALOG_INCLUDE_DIRS}
 )
 
 # Set component parameters
