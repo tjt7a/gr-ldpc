@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 	*/
 
 	const char* fname = "/home/tjt7a/src/gr-ldpc/apps/inputs/96.3.963";
-	float sigma = 0.3;
+	float sigma = 0.7;
 	int max_iterations = 100;
 
 	// Create symbol table
@@ -76,10 +76,10 @@ int main(int argc, char **argv){
 	gr::digital::chunks_to_symbols_bf::sptr chunks_to_symbols = gr::digital::chunks_to_symbols_bf::make(symbol_table, D);
 	gr::blocks::unpacked_to_packed_bb::sptr unpacked2packed = gr::blocks::unpacked_to_packed_bb::make(1, gr::GR_MSB_FIRST);
 
-	const char* in_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_encoded";
-	const char* out_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_decoded";
+	const char* in_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_encoded_noise_0.7";
+	const char* out_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_decoded_noise_0.7";
 	int number_of_children = 1;
-	double throughput_value = 1.3e5;
+	double throughput_value = 0.00015;
 
 
 	if(argc > 1)
@@ -101,12 +101,14 @@ int main(int argc, char **argv){
 	gr::router::queue_source_byte::sptr output_queue_source = gr::router::queue_source_byte::make(sizeof(char), output_queue, false, false);
 
 	/* Throttles */
-	gr::blocks::throttle::sptr throttle_0 = gr::blocks::throttle::make(sizeof(float), 0.18e6);
-	gr::blocks::throttle::sptr throttle_1 = gr::blocks::throttle::make(sizeof(char), 0.02e6);
-	gr::blocks::throttle::sptr throttle_2 = gr::blocks::throttle::make(sizeof(char), 0.02e6);
+	gr::blocks::throttle::sptr throttle_0 = gr::blocks::throttle::make(sizeof(float), (768/50)*throughput_value);
+	gr::blocks::throttle::sptr throttle_1 = gr::blocks::throttle::make(sizeof(char), throughput_value);
+	gr::blocks::throttle::sptr throttle_2 = gr::blocks::throttle::make(sizeof(char), 1e6);
 
 	/* Throughput */
-	gr::router::throughput_sink::sptr throughput_sink = gr::router::throughput_sink::make(sizeof(char), 10, 0);
+	//gr::router::throughput_sink::sptr throughput_sink = gr::router::throughput_sink::make(sizeof(char), 10, 0);
+	gr::router::throughput::sptr throughput = gr::router::throughput::make(sizeof(char), 2, 0);
+
 
 	/*
 		Input Queue Population
@@ -130,10 +132,10 @@ int main(int argc, char **argv){
 		Order and sink results
 	*/
 
-	tb->connect(output_queue_source, 0, throughput_sink, 0); // Print the throughputwo
+	tb->connect(output_queue_source, 0, throughput, 0); // Print the throughputwo
 	//tb->connect(output_queue_source, 0, throttle_1, 0);
 	//tb->connect(throttle_1, 0, sink, 0);
-	tb->connect(output_queue_source, 0, sink, 0);
+	tb->connect(throughput, 0, sink, 0);
 
 
 	tb->run();

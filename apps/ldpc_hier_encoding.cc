@@ -24,8 +24,12 @@
 #include <gnuradio/blocks/unpacked_to_packed_bb.h>
 #include <gnuradio/blocks/packed_to_unpacked_bb.h>
 #include <gnuradio/digital/chunks_to_symbols_bf.h>
+#include <gnuradio/analog/noise_source_f.h>
+#include <gnuradio/analog/noise_type.h>
 #include <router/throughput.h>
 #include "ldpc_hier_encoder_bb.h"
+
+#include <gnuradio/blocks/add_ff.h>
 
 using namespace gr;
 
@@ -44,16 +48,21 @@ using namespace gr;
  	gr::blocks::packed_to_unpacked_bb::sptr pack2unpack = gr::blocks::packed_to_unpacked_bb::make(1, gr::GR_MSB_FIRST);
 
  	const char* in_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/BonkEnc_test15_level8_5s_VBR_280kbps_Mono_32000Hz_16bit.flac";
- 	const char* out_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_encoded";
+ 	const char* out_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_encoded_noise_0.7";
 
  	gr::blocks::file_source::sptr source = gr::blocks::file_source::make(sizeof(char), in_file, false);
  	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(float), out_file);
+
+	gr::blocks::add_ff::sptr adder = gr::blocks::add_ff::make(1);
+	gr::analog::noise_source_f::sptr noise_source = gr::analog::noise_source_f::make(gr::analog::GR_GAUSSIAN, 0.7);
 
  	// Connect source -> packedtounpacked -> encoder -> chunkstosymbols -> sink
  	tb->connect(source, 0, pack2unpack, 0);
  	tb->connect(pack2unpack, 0, encoder, 0);
  	tb->connect(encoder, 0, chunks_to_symbols, 0);
- 	tb->connect(chunks_to_symbols, 0, sink, 0);
+	tb->connect(chunks_to_symbols, 0, adder, 0);
+	tb->connect(noise_source, 0, adder, 1);
+ 	tb->connect(adder, 0, sink, 0);
 
  	// Run the encoder
  	tb->run();

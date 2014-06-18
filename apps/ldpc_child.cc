@@ -56,7 +56,7 @@ int main(int argc, char **argv){
 	*/
 
 	const char* fname = "/home/tjt7a/src/gr-ldpc/apps/inputs/96.3.963";
-	float sigma = 0.3;
+	float sigma = 0.7;
 	int max_iterations = 100;
 
 	// Create symbol table
@@ -84,8 +84,8 @@ int main(int argc, char **argv){
 		child_index = atoi(argv[2]);
 
 	// Input and Output Queue
-	boost::lockfree::queue< std::vector<float>*, boost::lockfree::fixed_sized<true> > input_queue(100);
-	boost::lockfree::queue< std::vector<char>*, boost::lockfree::fixed_sized<true> > output_queue(100);
+	boost::lockfree::queue< std::vector<float>*, boost::lockfree::fixed_sized<true> > input_queue(1000);
+	boost::lockfree::queue< std::vector<char>*, boost::lockfree::fixed_sized<true> > output_queue(1000);
 
 	gr::router::child::sptr child_router = gr::router::child::make(0, child_index, parent_name, input_queue, output_queue, throughput_value);
 
@@ -99,7 +99,7 @@ int main(int argc, char **argv){
 	gr::blocks::throttle::sptr throttle_0 = gr::blocks::throttle::make(sizeof(float), throughput_value);
 
 	/* Throughput */
-	gr::router::throughput_sink::sptr throughput_sink = gr::router::throughput_sink::make(sizeof(char), 10, 0);
+	gr::router::throughput_sink::sptr throughput_sink = gr::router::throughput_sink::make(sizeof(char), 2, 0);
 
 	/*
 		Handler Code
@@ -110,7 +110,6 @@ int main(int argc, char **argv){
 	tb->connect(decoder, 0, unpacked2packed, 0);
 	tb->connect(unpacked2packed, 0, output_queue_sink, 0);
 	tb->connect(unpacked2packed, 0, throughput_sink, 0);
-
 
 	tb->run();
 
