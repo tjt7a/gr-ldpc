@@ -55,7 +55,7 @@ int main(int argc, char **argv){
 		LDPC Decoder Blocks
 	*/
 
-	const char* fname = "/home/tjt7a/src/gr-ldpc/apps/inputs/96.3.963";
+	const char* fname = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/96.3.963";
 	float sigma = 0.7;
 	int max_iterations = 100;
 

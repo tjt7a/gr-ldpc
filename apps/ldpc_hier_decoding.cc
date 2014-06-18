@@ -32,7 +32,7 @@ using namespace gr;
  // Imports
  int main(int argc, char **argv){
 
- 	const char* fname = "/home/tjt7a/src/gr-ldpc/apps/inputs/96.3.963";
+ 	const char* fname = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/96.3.963";
  	float sigma = 0.7;
  	int max_iterations = 100;
  	std::vector<float> symbol_table;
@@ -48,14 +48,14 @@ using namespace gr;
 
  	gr::blocks::unpacked_to_packed_bb::sptr unpack2pack = gr::blocks::unpacked_to_packed_bb::make(1, gr::GR_MSB_FIRST);
 
- 	const char* in_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_encoded_noise_0.7";
- 	const char* out_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_decoded_noise_0.7";
+ 	const char* in_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_encoded_noise_0.7";
+ 	const char* out_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_decoded_noise_0.7";
 
  	gr::blocks::file_source::sptr source = gr::blocks::file_source::make(sizeof(float), in_file, true);
  	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(char), out_file);
 
 	//gr::router::throughput_sink::sptr throughput_sink = gr::router::throughput_sink::make(sizeof(char), 10, 0);
-	gr::router::throughput::sptr throughput = gr::router::throughput::make(sizeof(char), 10, 0);
+	gr::router::throughput::sptr throughput = gr::router::throughput::make(sizeof(char), 2, 0);
 
  	// Connect source -> decoder -> unpackedtopacked -> sink
  	tb->connect(source, 0, decoder, 0);

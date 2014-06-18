@@ -57,7 +57,7 @@ int main(int argc, char **argv){
 		LDPC Decoder Blocks
 	*/
 
-	const char* fname = "/home/tjt7a/src/gr-ldpc/apps/inputs/96.3.963";
+	const char* fname = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/96.3.963";
 	float sigma = 0.7;
 	int max_iterations = 100;
 
@@ -76,10 +76,10 @@ int main(int argc, char **argv){
 	gr::digital::chunks_to_symbols_bf::sptr chunks_to_symbols = gr::digital::chunks_to_symbols_bf::make(symbol_table, D);
 	gr::blocks::unpacked_to_packed_bb::sptr unpacked2packed = gr::blocks::unpacked_to_packed_bb::make(1, gr::GR_MSB_FIRST);
 
-	const char* in_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_encoded_noise_0.7";
-	const char* out_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_decoded_noise_0.7";
+	const char* in_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_encoded_noise_0.7";
+	const char* out_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_decoded_noise_0.7";
 	int number_of_children = 1;
-	double throughput_value = 0.00015;
+	double throughput_value = 8.5e-5;
 
 
 	if(argc > 1)
@@ -92,7 +92,7 @@ int main(int argc, char **argv){
 	boost::lockfree::queue< std::vector<float>*, boost::lockfree::fixed_sized<true> > input_queue(1000);
 	boost::lockfree::queue< std::vector<char>*, boost::lockfree::fixed_sized<true> > output_queue(1000);
 
-	gr::router::root::sptr root_router = gr::router::root::make(number_of_children, input_queue, output_queue, throughput_value);
+	//gr::router::root::sptr root_router = gr::router::root::make(number_of_children, input_queue, output_queue, throughput_value);
 
 	gr::router::queue_sink::sptr input_queue_sink = gr::router::queue_sink::make(sizeof(float), input_queue, false);
 	gr::router::queue_source::sptr input_queue_source = gr::router::queue_source::make(sizeof(float), input_queue, false, false);
