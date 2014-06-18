@@ -27,7 +27,7 @@ include_directories(
 	${GR_LDPC_INCLUDE_DIRS}
 )
 
-add_executable(dial_tone ${CMAKE_CURRENT_SOURCE_DIR}/dial_tone.cc)
+#add_executable(dial_tone ${CMAKE_CURRENT_SOURCE_DIR}/dial_tone.cc)
 add_executable(ldpc_hier_test ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_test.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoder_fb.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_encoder_bb.cc)
 add_executable(ldpc_hier_decoding ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoding.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoder_fb.cc)
 add_executable(ldpc_hier_encoding ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_encoding.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_encoder_bb.cc)
@@ -36,8 +36,8 @@ add_executable(ldpc_child ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_child.cc ${CMAKE_CURR
 
 #include(GrPython)
 
-target_link_libraries(dial_tone
-  ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_ANALOG_LIBRARIES} ${GNURADIO_AUDIO_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES})
+#target_link_libraries(dial_tone
+#  ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_ANALOG_LIBRARIES} ${GNURADIO_AUDIO_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES})
 
 target_link_libraries(ldpc_hier_test
   ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_ANALOG_LIBRARIES} ${GNURADIO_AUDIO_LIBRARIES} ${GNURADIO_BLOCKS_LIBRARIES} ${GNURADIO_LDPC_LIBRARIES} ${GNURADIO_DIGITAL_LIBRARIES})
@@ -60,7 +60,7 @@ target_link_libraries(ldpc_child
 #)
 
 INSTALL(TARGETS
-	dial_tone
+#	dial_tone
 	ldpc_hier_test
 	ldpc_hier_decoding
 	ldpc_hier_encoding
