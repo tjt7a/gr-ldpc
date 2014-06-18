@@ -79,7 +79,7 @@ int main(int argc, char **argv){
 	const char* in_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_encoded_noise_0.7";
 	const char* out_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_decoded_noise_0.7";
 	int number_of_children = 1;
-	double throughput_value = 8.5e-5;
+	double throughput_value = 4.2e-5;
 
 
 	if(argc > 1)
@@ -102,7 +102,7 @@ int main(int argc, char **argv){
 
 	/* Throttles */
 	gr::blocks::throttle::sptr throttle_0 = gr::blocks::throttle::make(sizeof(float), (768/50)*throughput_value);
-	gr::blocks::throttle::sptr throttle_1 = gr::blocks::throttle::make(sizeof(char), throughput_value);
+	gr::blocks::throttle::sptr throttle_1 = gr::blocks::throttle::make(sizeof(char), 1e6);
 	gr::blocks::throttle::sptr throttle_2 = gr::blocks::throttle::make(sizeof(char), 1e6);
 
 	/* Throughput */
