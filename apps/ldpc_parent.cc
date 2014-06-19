@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 	*/
 
 	const char* fname = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/96.3.963";
-	float sigma = 0.0;
+	float sigma = 0.5;
 	int max_iterations = 100;
 
 	// Create symbol table
@@ -76,8 +76,8 @@ int main(int argc, char **argv){
 	gr::digital::chunks_to_symbols_bf::sptr chunks_to_symbols = gr::digital::chunks_to_symbols_bf::make(symbol_table, D);
 	gr::blocks::unpacked_to_packed_bb::sptr unpacked2packed = gr::blocks::unpacked_to_packed_bb::make(1, gr::GR_MSB_FIRST);
 
-	const char* in_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_encoded";
-	const char* out_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_decoded";
+	const char* in_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_encoded_noise_0.5";
+	const char* out_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_decoded_noise_0.5";
 	int number_of_children = 1;
 	double throughput_value = 0.11e6;
 
