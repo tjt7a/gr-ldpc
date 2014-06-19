@@ -58,7 +58,7 @@ int main(int argc, char **argv){
 	*/
 
 	const char* fname = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/96.3.963";
-	float sigma = 0.7;
+	float sigma = 0.0;
 	int max_iterations = 100;
 
 	// Create symbol table
@@ -76,14 +76,15 @@ int main(int argc, char **argv){
 	gr::digital::chunks_to_symbols_bf::sptr chunks_to_symbols = gr::digital::chunks_to_symbols_bf::make(symbol_table, D);
 	gr::blocks::unpacked_to_packed_bb::sptr unpacked2packed = gr::blocks::unpacked_to_packed_bb::make(1, gr::GR_MSB_FIRST);
 
-	const char* in_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_encoded_noise_0.7";
-	const char* out_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_decoded_noise_0.7";
+	const char* in_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_encoded";
+	const char* out_file = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/out_decoded";
 	int number_of_children = 1;
-	double throughput_value = 3.325e-7;
+	double throughput_value = 0.11e6;
 
 
 	if(argc > 1)
-		number_of_children = atoi(argv[1]);
+		throughput_value = atof(argv[1]);
+		//number_of_children = atoi(argv[1]);
 
 	gr::blocks::file_source::sptr src = gr::blocks::file_source::make(sizeof(float), in_file, true);
 	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(char), out_file);
