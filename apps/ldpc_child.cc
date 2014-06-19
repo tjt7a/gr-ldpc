@@ -56,7 +56,7 @@ int main(int argc, char **argv){
 	*/
 
 	const char* fname = "/home/tjt7a/src/git/gr-ldpc/apps/inputs/96.3.963";
-	float sigma = 0.7;
+	float sigma = 0.0;
 	int max_iterations = 100;
 
 	// Create symbol table
@@ -74,18 +74,19 @@ int main(int argc, char **argv){
 	ldpc_hier_decoder_fb_sptr decoder = ldpc_hier_decoder_fb_make(fname, sigma, max_iterations);
 	gr::blocks::unpacked_to_packed_bb::sptr unpacked2packed = gr::blocks::unpacked_to_packed_bb::make(1, gr::GR_MSB_FIRST);
 
-	double throughput_value = 1.2e5;
-	char* parent_name = "localhost";
+	double throughput_value = 1.2e6;
+	char* parent_name = "protoss";
 
 	if(argc > 1)
-		parent_name = argv[1];
+		throughput_value = atof(argv[1]);
+		//parent_name = argv[1];
 
-	if(argc > 2)
-		child_index = atoi(argv[2]);
+	//if(argc > 2)
+		//child_index = atoi(argv[2]);
 
 	// Input and Output Queue
-	boost::lockfree::queue< std::vector<float>*, boost::lockfree::fixed_sized<true> > input_queue(1000);
-	boost::lockfree::queue< std::vector<char>*, boost::lockfree::fixed_sized<true> > output_queue(1000);
+	boost::lockfree::queue< std::vector<float>*, boost::lockfree::fixed_sized<true> > input_queue(100);
+	boost::lockfree::queue< std::vector<char>*, boost::lockfree::fixed_sized<true> > output_queue(100);
 
 	gr::router::child::sptr child_router = gr::router::child::make(0, child_index, parent_name, input_queue, output_queue, throughput_value);
 
@@ -96,7 +97,7 @@ int main(int argc, char **argv){
 	gr::router::queue_source::sptr input_queue_source = gr::router::queue_source::make(sizeof(float), input_queue, false, false);
 
 	/* Throttles */
-	gr::blocks::throttle::sptr throttle_0 = gr::blocks::throttle::make(sizeof(float), throughput_value);
+//	gr::blocks::throttle::sptr throttle_0 = gr::blocks::throttle::make(sizeof(float), throughput_value);
 
 	/* Throughput */
 	gr::router::throughput_sink::sptr throughput_sink = gr::router::throughput_sink::make(sizeof(char), 2, 0);
@@ -105,8 +106,10 @@ int main(int argc, char **argv){
 		Handler Code
 	*/
 
-	tb->connect(input_queue_source, 0, throttle_0, 0);
-	tb->connect(throttle_0, 0, decoder, 0);
+//	tb->connect(input_queue_source, 0, throttle_0, 0);
+//	tb->connect(throttle_0, 0, decoder, 0);
+	tb->connect(input_queue_source, 0, decoder, 0);
+
 	tb->connect(decoder, 0, unpacked2packed, 0);
 	tb->connect(unpacked2packed, 0, output_queue_sink, 0);
 	tb->connect(unpacked2packed, 0, throughput_sink, 0);
