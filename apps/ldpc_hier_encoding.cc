@@ -47,7 +47,7 @@ using namespace gr;
  	symbol_table.push_back(-1);
  	const int D = 1; // Set dimmension to 1
 
- 	const float NOISE = 0.1 // The noise level for the LDPC encoded data
+ 	const float NOISE = 0.1; // The noise level for the LDPC encoded data
 
  	gr::top_block_sptr tb = gr::make_top_block("ldpc_hier_encoding");
  	ldpc_hier_encoder_bb_sptr encoder = ldpc_hier_encoder_bb_make(fname);
