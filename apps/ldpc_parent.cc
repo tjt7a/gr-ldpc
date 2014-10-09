@@ -17,8 +17,6 @@
  * Boston, MA 02110-1301, USA.
  */
 
-// Include header files for each block used in flowgraph
-
 #include <gnuradio/top_block.h>
 
 #include <gnuradio/blocks/file_source.h>
@@ -66,9 +64,7 @@ int main(int argc, char **argv){
 	symbol_table.push_back(1);
 	symbol_table.push_back(-1);
 
-
 	const int D = 1; // Set dimmension to 1
-
 
 	gr::top_block_sptr tb = gr::make_top_block("LDPC Parent");
 
