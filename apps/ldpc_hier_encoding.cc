@@ -71,7 +71,7 @@ using namespace gr;
 	gr::analog::noise_source_f::sptr noise_source = gr::analog::noise_source_f::make(gr::analog::GR_GAUSSIAN, NOISE);
 
  	// Connect source -> packedtounpacked -> encoder -> chunkstosymbols -> sink
- 	tb->connect(sosurce, 0, pack2unpack, 0);
+ 	tb->connect(source, 0, pack2unpack, 0);
  	tb->connect(pack2unpack, 0, encoder, 0);
  	tb->connect(encoder, 0, chunks_to_symbols, 0);
 	tb->connect(chunks_to_symbols, 0, adder, 0);
