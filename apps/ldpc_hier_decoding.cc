@@ -59,7 +59,7 @@ using namespace gr;
  	gr::blocks::file_source::sptr source = gr::blocks::file_source::make(sizeof(float), in_file_name.c_str(), true);
  	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(char), out_file_name.c_str());
 
-	gr::router::throughput::sptr throughput = gr::router::throughput::make(sizeof(char), 2, 0);
+	gr::router::throughput::sptr throughput = gr::router::throughput::make(sizeof(char), 1, 0);
 
  	// Connect source -> decoder -> unpackedtopacked -> sink
  	tb->connect(source, 0, decoder, 0);
