@@ -38,6 +38,7 @@ using namespace gr;
      
      if(argc < 2){
         std::cout << "Useage: ldpc_hier_decoding <input file name> < output file name>" << std::endl;
+        exit(-1);
      }
      else{
         in_file_name += argv[1];
