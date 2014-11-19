@@ -40,15 +40,25 @@ using namespace gr;
 
  int main(int argc, char **argv){
 
+     float noise_amp;
+     std::string out_file_name = "/home/tjt7a/src/gr-ldpc/apps/inputs/";
+     
+    // Read in parameters if available; else report usage
+     if(argc < 3){
+         std::cout << "Useage: ldpc_hier_encoding <Gaussian Noise Amplitude> <Output File Name>" << std::endl;
+         exit(-1);
+     }
+     else{
+         noise_amp = strtof(argv[1], NULL);
+         out_file_name += argv[2];
+     }
+     
     // Encoder configuration
  	const char* fname = "/home/tjt7a/src/gr-ldpc/apps/inputs/96.3.963";
  	std::vector<float> symbol_table;
  	symbol_table.push_back(1);
  	symbol_table.push_back(-1);
  	const int D = 1; // Set dimmension to 1
-
-    // Set the noise level for the gaussian noise source
- 	const float NOISE = 0.25; // The noise level for the LDPC encoded data
 
  	gr::top_block_sptr tb = gr::make_top_block("ldpc_hier_encoding");
      
@@ -62,13 +72,13 @@ using namespace gr;
  	const char* in_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/BonkEnc_test15_level8_5s_VBR_280kbps_Mono_32000Hz_16bit.flac";
  	
  	// Output file name
- 	const char* out_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_encoded_noise_0.25";
+     //const char* out_file = out_file_name; //out_encoded_noise_0.75";
 
  	gr::blocks::file_source::sptr source = gr::blocks::file_source::make(sizeof(char), in_file, false);
- 	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(float), out_file);
+ 	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(float), out_file_name);
 
 	gr::blocks::add_ff::sptr adder = gr::blocks::add_ff::make(1);
-	gr::analog::noise_source_f::sptr noise_source = gr::analog::noise_source_f::make(gr::analog::GR_GAUSSIAN, NOISE);
+	gr::analog::noise_source_f::sptr noise_source = gr::analog::noise_source_f::make(gr::analog::GR_GAUSSIAN, noise_amp);
 
  	// Connect source -> packedtounpacked -> encoder -> chunkstosymbols -> sink
  	tb->connect(source, 0, pack2unpack, 0);
