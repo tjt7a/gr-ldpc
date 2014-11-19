@@ -32,36 +32,37 @@ using namespace gr;
  // Imports
  int main(int argc, char **argv){
 
+    float noise_ampl;
+    std::string in_file_name = "/home/tjt7a/src/gr-ldpc/apps/inputs/";
+    std::string out_file_name = "/home/tjt7a/src/gr-ldpc/apps/inputs/";
+     
+     if(argc < 2){
+        std::cout << "Useage: ldpc_hier_decoding <input file name> < output file name>" << std::endl;
+     }
+     else{
+        in_file_name += argv[1];
+        out_file_name += argv[2];
+    }
+     
+     
  	const char* fname = "/home/tjt7a/src/gr-ldpc/apps/inputs/96.3.963";
  	float sigma = 0.5;
  	int max_iterations = 100;
- 	std::vector<float> symbol_table;
- 	symbol_table.push_back(1);
- 	symbol_table.push_back(-1);
- 	const int D = 1; // Set dimmension to 1
 
- 	gr::top_block_sptr tb = gr::make_top_block("ldpc_hier_test");
+ 	gr::top_block_sptr tb = gr::make_top_block("ldpc_hier_decoding");
  	
  	ldpc_hier_decoder_fb_sptr decoder = ldpc_hier_decoder_fb_make(fname, sigma, max_iterations);
  	
- 	gr::digital::chunks_to_symbols_bf::sptr chunks_to_symbols = gr::digital::chunks_to_symbols_bf::make(symbol_table, D);
-
  	gr::blocks::unpacked_to_packed_bb::sptr unpack2pack = gr::blocks::unpacked_to_packed_bb::make(1, gr::GR_MSB_FIRST);
 
- 	const char* in_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_encoded_noise_0.5";
- 	const char* out_file = "/home/tjt7a/src/gr-ldpc/apps/inputs/out_decoded_noise_0.5";
+ 	gr::blocks::file_source::sptr source = gr::blocks::file_source::make(sizeof(float), in_file_name, true);
+ 	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(char), out_file_name);
 
- 	gr::blocks::file_source::sptr source = gr::blocks::file_source::make(sizeof(float), in_file, true);
- 	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(char), out_file);
-
-	//gr::router::throughput_sink::sptr throughput_sink = gr::router::throughput_sink::make(sizeof(char), 10, 0);
 	gr::router::throughput::sptr throughput = gr::router::throughput::make(sizeof(char), 2, 0);
 
  	// Connect source -> decoder -> unpackedtopacked -> sink
  	tb->connect(source, 0, decoder, 0);
  	tb->connect(decoder, 0, unpack2pack, 0);
- 	//tb->connect(unpack2pack, 0, sink, 0);
-	//tb->connect(unpack2pack, 0, throughput_sink, 0);
 	tb->connect(unpack2pack, 0, throughput, 0);
 	tb->connect(throughput, 0, sink, 0);
 
