@@ -55,8 +55,8 @@ using namespace gr;
  	
  	gr::blocks::unpacked_to_packed_bb::sptr unpack2pack = gr::blocks::unpacked_to_packed_bb::make(1, gr::GR_MSB_FIRST);
 
- 	gr::blocks::file_source::sptr source = gr::blocks::file_source::make(sizeof(float), in_file_name, true);
- 	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(char), out_file_name);
+ 	gr::blocks::file_source::sptr source = gr::blocks::file_source::make(sizeof(float), in_file_name.c_str(), true);
+ 	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(char), out_file_name.c_str());
 
 	gr::router::throughput::sptr throughput = gr::router::throughput::make(sizeof(char), 2, 0);
 
