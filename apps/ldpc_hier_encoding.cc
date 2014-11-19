@@ -75,7 +75,7 @@ using namespace gr;
      //const char* out_file = out_file_name; //out_encoded_noise_0.75";
 
  	gr::blocks::file_source::sptr source = gr::blocks::file_source::make(sizeof(char), in_file, false);
- 	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(float), out_file_name);
+ 	gr::blocks::file_sink::sptr sink = gr::blocks::file_sink::make(sizeof(float), out_file_name.c_str());
 
 	gr::blocks::add_ff::sptr adder = gr::blocks::add_ff::make(1);
 	gr::analog::noise_source_f::sptr noise_source = gr::analog::noise_source_f::make(gr::analog::GR_GAUSSIAN, noise_amp);
