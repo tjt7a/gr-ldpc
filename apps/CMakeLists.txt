@@ -33,7 +33,7 @@ add_executable(ldpc_hier_decoding ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoding
 add_executable(ldpc_hier_encoding ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_encoding.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_encoder_bb.cc)
 add_executable(ldpc_parent ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_parent.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoder_fb.cc)
 add_executable(ldpc_child ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_child.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoder_fb.cc)
-add_executable(ldpc_decoder_with_queues ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_decoder_with_queues.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_deocder_fb.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_encoder_bb.cc)
+add_executable(ldpc_decoder_with_queues ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_decoder_with_queues.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_decoder_fb.cc ${CMAKE_CURRENT_SOURCE_DIR}/ldpc_hier_encoder_bb.cc)
 
 #include(GrPython)
 
