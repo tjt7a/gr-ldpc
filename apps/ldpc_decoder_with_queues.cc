@@ -28,14 +28,17 @@
 #include <gnuradio/blocks/packed_to_unpacked_bb.h>
 #include <gnuradio/digital/chunks_to_symbols_bf.h>
 
+#include <boost/lockfree/queue.hpp>
+
 //Gr-Router Stuff
 #include <router/throughput.h>
 #include <router/queue_sink.h>
 #include <router/queue_source.h>
+#include <router/queue_sink_byte.h>
+#include <router/queue_source_byte.h>
 #include <boost/lockfree/queue.hpp>
 
-
-#include "ldpc_with_queues.h"
+#include "ldpc_hier_decoder_fb.h"
 
 using namespace gr;
 
