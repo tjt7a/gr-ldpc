@@ -71,8 +71,12 @@ int main(int argc, char **argv){
     boost::lockfree::queue< std::vector<char>*, boost::lockfree::fixed_sized<true> > output_queue(1000);
     
     // Throttle
-    gr::blocks::throttle::sptr throttle = gr::blocks::throttle::make(sizeof(float), /*(768/50)**/throughput_value);
-    
+    gr::blocks::throttle::sptr throttle = gr::blocks::throttle::make(sizeof(float), (768/50)*throughput_value);
+    gr::blocks::throttle::sptr throttle_1 = gr::blocks::throttle::make(sizeof(float), (768/50)*throughput_value);
+    gr::blocks::throttle::sptr throttle_2 = gr::blocks::throttle::make(sizeof(char), throughput_value);
+       
+
+ 
     // Input queue source and sink
     gr::router::queue_sink::sptr input_queue_sink = gr::router::queue_sink::make(sizeof(float), input_queue, false);
     gr::router::queue_source::sptr input_queue_source = gr::router::queue_source::make(sizeof(float), input_queue, false, false);
@@ -97,10 +101,12 @@ int main(int argc, char **argv){
     
     tb->connect(source, 0, throttle, 0);
     tb->connect(throttle, 0, input_queue_sink, 0);
-    tb->connect(input_queue_source, 0, decoder, 0);
+    tb->connect(input_queue_source, 0, throttle_1, 0);
+    tb->connect(throttle_1, 0, decoder, 0);
     tb->connect(decoder, 0, unpack2pack, 0);
     tb->connect(unpack2pack, 0, output_queue_sink, 0);
-    tb->connect(output_queue_source, 0, throughput, 0);
+    tb->connect(output_queue_source, 0, throttle_2, 0);
+    tb->connect(throttle_2, 0, throughput, 0);
     tb->connect(throughput, 0, sink, 0);
     
     tb->run();
